@@ -101,7 +101,7 @@ const eventListen = () => {
 
     // 监听新增窗口传递过来的 信息项
     ipcMain.on('info:add',(e, val) => {
-        console.log(val)
+        win.webContents.send('info:add', val);
     })
 
 };

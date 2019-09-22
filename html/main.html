@@ -15,12 +15,12 @@
         </nav>
 
         <!-- 信息列表 -->
-        <ul class="collection">
-            <li class="collection-item"> 信息列表项001 <i class="close-btn">×</i> </li>
+        <ul id="wrap">
+            <!-- <li class="collection-item"> 信息列表项001 <i class="close-btn">×</i> </li>
             <li class="collection-item"> 信息列表项002 <i class="close-btn">×</i> </li>
             <li class="collection-item"> 信息列表项003 <i class="close-btn">×</i> </li>
             <li class="collection-item"> 信息列表项004 <i class="close-btn">×</i> </li>
-            <li class="collection-item"> 信息列表项005 <i class="close-btn">×</i> </li>
+            <li class="collection-item"> 信息列表项005 <i class="close-btn">×</i> </li> -->
         </ul>
 
         <!-- 提示 -->
@@ -32,5 +32,41 @@
             .close-btn{position: absolute;width:30px;height:30px;text-align: center;cursor: pointer;font-size:25px;right: 10px;top: 7px;color:#ccc;}
             .close-btn:hover{color:#333;}
         </style>
+
+        <script>
+            const electron  = require('electron');
+            const { ipcRenderer } = electron;
+            const ul = document.querySelector('#wrap');
+            const spaceSection = document.querySelector('.space-section');
+
+            // 接收 新增信息窗口传递过来的数据
+            ipcRenderer.on('info:add',(e, val) => {
+                const li = document.createElement('li');
+                ul.className = 'collection';
+                li.className = "collection-item";
+                li.innerHTML = val+' <i class="close-btn">×</i>';
+                ul.append(li);
+                spaceSection.style.display = 'none';
+                domListener();
+            });
+
+            // dom 监听
+            function domListener(){
+                document.querySelectorAll('.close-btn').forEach(el => {
+                    el.addEventListener('click', function(ev){
+                        this.parentNode.remove();
+                        // 判断列表是否为空
+                        if(ul.children.length == 0){
+                            ul.className = ''
+                            // ul.classList.remove('collection')
+                            spaceSection.style.display = 'block';
+                        }
+                    });
+                })
+            }
+            domListener();
+
+
+        </script>
     </body>
 </html>
