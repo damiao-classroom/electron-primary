@@ -4,6 +4,7 @@ const path = require('path');
 const url = require('url');
 
 let win = null;
+let addWin = null;
 app.on('ready', () => {
     win = new BrowserWindow({
         width: 800, height: 600
@@ -17,6 +18,11 @@ app.on('ready', () => {
     // 定义菜单
     const mainMenu = Menu.buildFromTemplate(menuTemplate);
     Menu.setApplicationMenu(mainMenu);
+
+    // 点击主窗口的关闭按钮
+    win.on('closed', () => {
+        app.quit();
+    });
 });
 
 // 顶部菜单 模板
@@ -27,7 +33,12 @@ const menuTemplate = [
         label: '文件',
         // 顶部菜单下面的子菜单列表
         submenu: [
-            { label: '新增信息' },
+            { 
+                label: '新增信息', 
+                click: () => {
+                    createAddWindow()
+                }
+            },
             { label: '清空信息' },
             { label: '退出', 
             accelerator: process.platform == 'darwin' ? 'Command+D' : 'Ctrl+D',
@@ -41,6 +52,20 @@ const menuTemplate = [
 ];
 
 
+
+// 创建一个新的窗口
+const createAddWindow = () => {
+    addWin = new BrowserWindow({
+        width: 600, height: 300
+    });
+    addWin.loadURL(url.format({
+        pathname: path.resolve(__dirname,'./html/add.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+}
+
+// 检测当前环境
 const checkEnv = () => {
     let env = process.env.NODE_ENV;
     // 开发者工具菜单项
