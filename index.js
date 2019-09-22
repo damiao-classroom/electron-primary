@@ -37,9 +37,14 @@ const menuTemplate = [
             } 
             }
         ]
-    },
+    }
+];
+
+
+const checkEnv = () => {
+    let env = process.env.NODE_ENV;
     // 开发者工具菜单项
-    {
+    let devConfig =  {
         label: '开发者工具',
         submenu: [
             { 
@@ -54,5 +59,11 @@ const menuTemplate = [
               accelerator: process.platform == 'darwin' ? 'Command+F5' : 'Ctrl+F5' 
             }
         ]
+    };
+    // console.log(env)
+    // 开发的环境
+    if(env !== 'production'){
+        menuTemplate.push(devConfig);
     }
-]
+}
+checkEnv();
