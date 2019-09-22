@@ -1,5 +1,5 @@
 const electron = require('electron')
-const { app, BrowserWindow, Menu } = electron;
+const { app, BrowserWindow, Menu, ipcMain } = electron;
 const path = require('path');
 const url = require('url');
 
@@ -7,7 +7,9 @@ let win = null;
 let addWin = null;
 app.on('ready', () => {
     win = new BrowserWindow({
-        width: 800, height: 600
+        width: 800, height: 600, webPreferences: {
+            nodeIntegration: true
+        }
     });
     win.loadURL(url.format({
         pathname: path.resolve(__dirname,'./html/main.html'),
@@ -51,12 +53,12 @@ const menuTemplate = [
     }
 ];
 
-
-
 // 创建一个新的窗口
 const createAddWindow = () => {
     addWin = new BrowserWindow({
-        width: 600, height: 300
+        width: 600, height: 300, webPreferences: {
+            nodeIntegration: true
+        }
     });
     addWin.loadURL(url.format({
         pathname: path.resolve(__dirname,'./html/add.html'),
@@ -92,3 +94,15 @@ const checkEnv = () => {
     }
 }
 checkEnv();
+
+
+// 事件监听: 监听事件信息的传递
+const eventListen = () => {
+
+    // 监听新增窗口传递过来的 信息项
+    ipcMain.on('info:add',(e, val) => {
+        console.log(val)
+    })
+
+};
+eventListen();

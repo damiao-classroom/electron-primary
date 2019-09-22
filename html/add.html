@@ -9,7 +9,7 @@
         <section class="form-box">
             <form>
                 <label for="info">请输入信息名称</label>
-                <input type="text" name="info" id="info" placeholder="请输入信息名称" />
+                <input type="text" name="info" id="info" placeholder="请输入信息名称" autofocus />
                 <button type="submit" class="btn btn-add">添加</button>
             </form>
         </section>
@@ -18,5 +18,21 @@
             .form-box{width:80%;margin:0 auto;margin-top:5px;}
             .btn-add{width:100%;margin-top:2px;}
         </style>
+
+        <script>
+            const electron = require('electron');
+            const { ipcRenderer } = electron;
+            const form = document.querySelector('form');
+
+            // submit 事件
+            form.addEventListener('submit',(ev) => {
+                ev.preventDefault(); // 阻止刷新
+                let val = document.querySelector('#info').value;
+                // console.log(val);
+                // 发送传递信息
+                ipcRenderer.send("info:add", val);
+            });
+
+        </script>
     </body>
 </html>
