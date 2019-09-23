@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development electron .",
-    "start-prod": "cross-env NODE_ENV=production electron ."
+    "start-prod": "cross-env NODE_ENV=production electron .",
+    "build-win": "electron-packager . info-list-app --out=dist --overwrite --platform=win32 --arch=x64 --prune=true --icon=icon/win/icon.ico",
+    "build-linux": "electron-packager . info-list-app --out=dist --overwrite --platform=linux --arch=x64 --prune=true --icon=icon/linux/icon.png",
+    "build-mac": "electron-packager . info-list-app --out=dist --overwrite --platform=darwin --arch=x64 --prune=true --icon=icon/mac/icon.icns"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +17,6 @@
   "devDependencies": {
     "cross-env": "^6.0.0",
     "electron": "^6.0.10",
-    "electron-packager": "^14.0.6"
+    "electron-packager": "^13.1.1"
   }
 }

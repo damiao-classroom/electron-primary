@@ -74,6 +74,9 @@ const createAddWindow = () => {
 
 // 检测当前环境
 const checkEnv = () => {
+    if(process.env.NODE_ENV == undefined){
+        process.env.NODE_ENV = 'production';
+    }
     let env = process.env.NODE_ENV;
     // 开发者工具菜单项
     let devConfig =  {
@@ -92,7 +95,7 @@ const checkEnv = () => {
             }
         ]
     };
-    // console.log(env)
+    console.log(env)
     // 开发的环境
     if(env !== 'production'){
         menuTemplate.push(devConfig);
