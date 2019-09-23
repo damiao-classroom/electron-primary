@@ -50,6 +50,13 @@
                 domListener();
             });
 
+            // 接收 清空信息的按钮事件传递
+            ipcRenderer.on('info:clear',(e) => {
+                ul.className = '';
+                ul.innerHTML = '';
+                spaceSection.style.display = 'block';
+            });
+
             // dom 监听
             function domListener(){
                 document.querySelectorAll('.close-btn').forEach(el => {
